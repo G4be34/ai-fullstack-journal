@@ -39,12 +39,12 @@ const Editor = ({ entry }) => {
       </div>
       <div className="col-span-2">
         <textarea
-          className="w-full h-full p-8 text-xl outline-none"
+          className="w-full h-full p-8 text-xl "
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
       </div>
-      <div className="border-l border-black/10">
+      <div className="border-l border-black/5">
         <div className="px-6 py-10" style={{ backgroundColor: color }}>
           <h2 className="text-2xl">Analysis</h2>
         </div>

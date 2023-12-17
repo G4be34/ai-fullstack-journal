@@ -9,26 +9,26 @@ const links = [
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="h-screen w-screen relative">
-      <aside className="absolute w-[200px] top-0 left-0 h-full border-r border-black/10">
-        <div>Mood</div>
-        <ul>
+    <div className="flex h-screen overflow-hidden relative">
+      <aside className="w-48 h-full border-r border-black/10 bg-gray-200">
+        <div className="px-4 py-2">Mood Journal</div>
+        <ul className="px-4">
           {links.map((link) => (
-            <li key={link.href} className="px-2 py-6 text-xl">
+            <li key={link.href} className="text-xl my-4">
               <Link href={link.href}>{link.label}</Link>
             </li>
           ))}
         </ul>
       </aside>
-      <div className="ml-[200px] h-full w-[calc(100vw-200px)]">
-        <header className="h-[60px] border-b border-black/10">
-          <nav className="px-4 h-full">
-            <div className="h-full flex items-center justify-end">
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <header className="h-16 border-b border-black/10 bg-white">
+          <nav className="px-4 h-full flex items-center justify-end">
+            <div className="flex items-center">
               <UserButton />
             </div>
           </nav>
         </header>
-        <div className="h-[calc(100vh-60px)]">{children}</div>
+        <div className="flex-1 overflow-y-hidden">{children}</div>
       </div>
     </div>
   );
