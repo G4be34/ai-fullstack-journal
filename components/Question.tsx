@@ -2,6 +2,7 @@
 
 import { askQuestion } from "@/utils/api";
 import { useState } from "react";
+import Spinner from "./Spinner";
 
 const Question = () => {
   const [value, setValue] = useState("");
@@ -25,11 +26,11 @@ const Question = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex items-center">
         <input
           disabled={loading}
           type="text"
-          className="border border-black/20 px-4 py-2 text-lg rounded-lg"
+          className="border border-black/20 px-4 py-2 text-lg rounded-lg mr-4 w-[550px]"
           value={value}
           onChange={onChange}
           placeholder="Ask a question"
@@ -41,8 +42,12 @@ const Question = () => {
           Ask
         </button>
       </form>
-      {loading && <div>...loading</div>}
-      {response && <div>{response}</div>}
+      {loading && (
+        <div className="mt-4">
+          <Spinner />
+        </div>
+      )}
+      {response && <div className="mt-4">{response}</div>}
     </div>
   );
 };

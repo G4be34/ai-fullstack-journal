@@ -1,3 +1,4 @@
+import DeleteButton from "@/components/DeleteButton";
 import Editor from "@/components/Editor";
 import { getUserByClerkID } from "@/utils/auth";
 import { prisma } from "@/utils/db";
@@ -24,7 +25,9 @@ const EntryPage = async ({ params }) => {
 
   return (
     <div>
-      <Editor entry={entry} />
+      <Editor entry={entry}>
+        <DeleteButton id={params.id} />
+      </Editor>
     </div>
   );
 };

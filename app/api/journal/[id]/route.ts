@@ -34,3 +34,19 @@ export const PATCH = async (request: Request, { params }) => {
 
   return NextResponse.json({ data: { ...updatedEntry, analysis: updated } });
 };
+
+export const DELETE = async ({ params }) => {
+  try {
+    const user = await getUserByClerkID();
+    await prisma.journalEntry.delete({
+      where: {
+        userId_id: {
+          userId: user.id,
+          id: params.id,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error deleting entry from database:", error);
+  }
+};

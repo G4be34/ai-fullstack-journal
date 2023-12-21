@@ -1,20 +1,22 @@
 "use client";
 
 import { updateEntry } from "@/utils/api";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAutosave } from "react-autosave";
 import Spinner from "./Spinner";
 
-const Editor = ({ entry }) => {
+const Editor = ({ entry, children }) => {
   const [value, setValue] = useState(entry.content);
   const [isSaving, setIsSaving] = useState(false);
   const [analysis, setAnalysis] = useState(entry.analysis);
+  const router = useRouter();
 
   const { mood, summary, color, subject, negative } = analysis;
   const analysisData = [
     { name: "Summary", value: summary },
     { name: "Subject", value: subject },
-    { name: "Mood", value: mood },
+    { name: "Mood", value: mood[0].toUpperCase() + mood.slice(1) },
     { name: "Negative", value: negative ? "True" : "False" },
   ];
 
@@ -60,6 +62,7 @@ const Editor = ({ entry }) => {
               </li>
             ))}
           </ul>
+          <div className="flex justify-center mt-8">{children}</div>
         </div>
       </div>
     </div>

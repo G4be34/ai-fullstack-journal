@@ -10,6 +10,9 @@ export const createNewEntry = async () => {
   if (res.ok) {
     const data = await res.json();
     return data.data;
+  } else {
+    console.error("Error creating new entry:", res.statusText);
+    throw new Error(res.statusText);
   }
 };
 
@@ -22,6 +25,9 @@ export const updateEntry = async (id, content) => {
   if (res.ok) {
     const data = await res.json();
     return data.data;
+  } else {
+    console.error("Error updating entry:", res.statusText);
+    throw new Error(res.statusText);
   }
 };
 
@@ -34,5 +40,18 @@ export const askQuestion = async (question) => {
   if (res.ok) {
     const data = await res.json();
     return data.data;
+  } else {
+    console.error("Error asking question:", res.statusText);
+    throw new Error(res.statusText);
+  }
+};
+
+export const deleteEntry = async (id) => {
+  const res = await fetch(new Request(createURL(`/api/journal/${id}`)), {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    console.error("Error deleting entry:", res.statusText);
   }
 };
