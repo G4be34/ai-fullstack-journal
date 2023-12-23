@@ -4,11 +4,13 @@ import { updateEntry } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAutosave } from "react-autosave";
+import DeleteButton from "./DeleteButton";
 import Spinner from "./Spinner";
 
-const Editor = ({ entry, children }) => {
+const Editor = ({ entry }) => {
   const [value, setValue] = useState(entry.content);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [analysis, setAnalysis] = useState(entry.analysis);
   const router = useRouter();
 
@@ -23,11 +25,14 @@ const Editor = ({ entry, children }) => {
   useAutosave({
     data: value,
     onSave: async (_value) => {
-      setIsSaving(true);
-      const data = await updateEntry(entry.id, _value);
-      setAnalysis(data.analysis);
-      setIsSaving(false);
+      if (!isDeleting) {
+        setIsSaving(true);
+        const data = await updateEntry(entry.id, _value);
+        setAnalysis(data.analysis);
+        setIsSaving(false);
+      }
     },
+    saveOnUnmount: false,
   });
 
   return (
@@ -62,7 +67,18 @@ const Editor = ({ entry, children }) => {
               </li>
             ))}
           </ul>
-          <div className="flex justify-center mt-8">{children}</div>
+          <div className="flex justify-center mt-8">
+            {!isDeleting ? (
+              <DeleteButton id={entry.id} setIsDeleting={setIsDeleting} />
+            ) : (
+              <button
+                className="px-4 py-2 rounded-lg text-xl cursor-pointer"
+                style={{ backgroundColor: "rgb(237, 55, 40)" }}
+              >
+                Deleting...
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

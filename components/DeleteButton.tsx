@@ -1,20 +1,25 @@
-import { deleteEntry } from "@/utils/api";
-import Link from "next/link";
+"use client";
 
-const DeleteButton = ({ id }) => {
+import { deleteEntry } from "@/utils/api";
+import { useRouter } from "next/navigation";
+
+const DeleteButton = ({ id, setIsDeleting }) => {
+  const router = useRouter();
   const handleDelete = async (entryId) => {
+    setIsDeleting(true);
     await deleteEntry(entryId);
+    setIsDeleting(false);
+    router.push("/journal");
   };
 
   return (
-    <Link href={"/journal"}>
-      <button
-        className="px-4 py-2 rounded-lg text-xl cursor-pointer"
-        style={{ backgroundColor: "rgb(237, 55, 40)" }}
-      >
-        Delete Journal Entry
-      </button>
-    </Link>
+    <button
+      className="px-4 py-2 rounded-lg text-xl cursor-pointer"
+      style={{ backgroundColor: "rgb(237, 55, 40)" }}
+      onClick={() => handleDelete(id)}
+    >
+      Delete Journal Entry
+    </button>
   );
 };
 
