@@ -55,3 +55,18 @@ export const deleteEntry = async (id) => {
     console.error("Error deleting entry:", res.statusText);
   }
 };
+
+export const verifyUser = async (email) => {
+  const res = await fetch(new Request(createURL("/api/verify")), {
+    method: "GET",
+    body: JSON.stringify({ email }),
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    return data.data;
+  } else {
+    console.error("Error reaching database to verify user:", res.statusText);
+    throw new Error(res.statusText);
+  }
+};
