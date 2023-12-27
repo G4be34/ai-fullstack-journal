@@ -57,10 +57,12 @@ export const deleteEntry = async (id) => {
 };
 
 export const verifyUser = async (email) => {
-  const res = await fetch(new Request(createURL("/api/verify")), {
-    method: "GET",
-    body: JSON.stringify({ email }),
-  });
+  const res = await fetch(
+    new Request(createURL(`/api/verify?email=${email}`)),
+    {
+      method: "GET",
+    }
+  );
 
   if (res.ok) {
     const data = await res.json();

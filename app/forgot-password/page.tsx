@@ -2,7 +2,10 @@
 
 import { verifyUser } from "@/utils/api";
 import { useSignIn } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState } from "react";
+
+const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +17,8 @@ const ForgotPassword = () => {
   const [complete, setComplete] = useState(false);
   const [secondFactor, setSecondFactor] = useState(false);
   const [foundUser, setFoundUser] = useState(true);
+  const [regexFailed, setRegexFailed] = useState(false);
+  const router = useRouter();
 
   const { isLoaded, signIn, setActive } = useSignIn();
 
@@ -48,6 +53,13 @@ const ForgotPassword = () => {
       setPwMatch(false);
       return;
     }
+
+    if (!passwordRegex.test(password)) {
+      setRegexFailed(true);
+      return;
+    }
+
+    setRegexFailed(false);
     setPwMatch(true);
     await signIn
       ?.attemptFirstFactor({
@@ -60,12 +72,12 @@ const ForgotPassword = () => {
           setSecondFactor(true);
         } else if (result.status === "complete") {
           setActive({ session: result.createdSessionId });
-          setComplete(true);
         } else {
           console.log(result);
         }
       })
-      .catch((err) => console.error("error", err.errors[0].longMessage));
+      .catch((err) => console.error("error", err));
+    router.push("/");
   }
 
   return (
@@ -137,6 +149,12 @@ const ForgotPassword = () => {
               {!pwMatch && (
                 <div className="text-red-400">Passwords do not match</div>
               )}
+              {regexFailed && (
+                <div className="text-red-400">
+                  Passwords must have at least 8 characters, 1 number and 1
+                  special character
+                </div>
+              )}
               <button
                 type="submit"
                 className="bg-blue-600 px-4 py-2 rounded-lg text-xl max-w-[200px] mx-auto"
@@ -146,7 +164,11 @@ const ForgotPassword = () => {
             </>
           )}
 
-          {complete && "You successfully changed you password"}
+          {complete && (
+            <div className="text-green-400 flex justify-center">
+              You successfully changed you password
+            </div>
+          )}
           {secondFactor && "2FA is required, this UI does not handle that"}
         </form>
       </div>
