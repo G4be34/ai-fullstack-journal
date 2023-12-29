@@ -26,3 +26,24 @@ export const POST = async () => {
 
   return NextResponse.json({ data: entry });
 };
+
+export const GET = async () => {
+  try {
+    const user = await getUserByClerkID();
+    const entries = await prisma.journalEntry.findMany({
+      where: {
+        userId: user.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        analysis: true,
+      },
+    });
+
+    return entries;
+  } catch (error) {
+    console.error("Error fetching entries from database:", error);
+  }
+};

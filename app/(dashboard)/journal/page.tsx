@@ -1,29 +1,28 @@
+"use client";
+
 import EntryCard from "@/components/EntryCard";
 import NewEntryCard from "@/components/NewEntryCard";
 import Question from "@/components/Question";
-import { getUserByClerkID } from "@/utils/auth";
-import { prisma } from "@/utils/db";
+import { getEntries } from "@/utils/api";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const getEntries = async () => {
-  const user = await getUserByClerkID();
-  const entries = await prisma.journalEntry.findMany({
-    where: {
-      userId: user.id,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      analysis: true,
-    },
-  });
+const JournalPage = () => {
+  const [entries, setEntries] = useState([]);
 
-  return entries;
-};
+  useEffect(() => {
+    const fetchEntries = async () => {
+      try {
+        const entries = await getEntries();
+        console.log("Entries: ", entries);
+        setEntries(entries);
+      } catch (error) {
+        console.error("Error fetching entries:", error);
+      }
+    };
 
-const JournalPage = async () => {
-  const entries = await getEntries();
+    fetchEntries();
+  }, []);
 
   return (
     <div className="p-10 bg-zinc-400/10 h-full overflow-auto">

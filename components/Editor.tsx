@@ -39,7 +39,7 @@ const Editor = ({ entry }) => {
     <div className="w-full h-full grid grid-cols-3 gap-0 relative">
       <div className="absolute left-0 top-0 p-2">
         {isSaving ? (
-          <Spinner />
+          <Spinner width={"16px"} height={"16px"} />
         ) : (
           <div className="w-[16px] h-[16px] rounded-full bg-green-500"></div>
         )}

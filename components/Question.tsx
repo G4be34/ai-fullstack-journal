@@ -44,7 +44,7 @@ const Question = () => {
       </form>
       {loading && (
         <div className="mt-4">
-          <Spinner />
+          <Spinner width={"16px"} height={"16px"} />
         </div>
       )}
       {response && <div className="mt-4">{response}</div>}

@@ -1,4 +1,4 @@
-const createURL = (path) => {
+export const createURL = (path) => {
   return window.location.origin + path;
 };
 
@@ -69,6 +69,21 @@ export const verifyUser = async (email) => {
     return data.data;
   } else {
     console.error("Error reaching database to verify user:", res.statusText);
+    throw new Error(res.statusText);
+  }
+};
+
+export const getEntries = async () => {
+  const res = await fetch(new Request(createURL("/api/journal")), {
+    method: "GET",
+  });
+
+  console.log("Response: ", res);
+  if (res.ok) {
+    const data = await res.json();
+    return data.data;
+  } else {
+    console.error("Error fetching entries:", res.statusText);
     throw new Error(res.statusText);
   }
 };
