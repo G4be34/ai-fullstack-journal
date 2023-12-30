@@ -3,10 +3,12 @@
 import { createNewEntry } from "@/utils/api";
 import { useRouter } from "next/navigation";
 
-const NewEntryCard = () => {
+const NewEntryCard = ({ setIsLoading }) => {
   const router = useRouter();
   const handleOnClick = async () => {
+    setIsLoading(true);
     const data = await createNewEntry();
+    setIsLoading(false);
     router.push(`/journal/${data.id}`);
   };
 

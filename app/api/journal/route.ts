@@ -42,7 +42,7 @@ export const GET = async () => {
       },
     });
 
-    return entries;
+    return NextResponse.json({ data: entries });
   } catch (error) {
     console.error("Error fetching entries from database:", error);
   }

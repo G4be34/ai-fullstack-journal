@@ -74,7 +74,7 @@ export const verifyUser = async (email) => {
 };
 
 export const getEntries = async () => {
-  const res = await fetch(new Request(createURL("/api/journal")), {
+  const res = await fetch("/api/journal", {
     method: "GET",
   });
 

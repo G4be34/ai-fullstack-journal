@@ -3,24 +3,27 @@
 import EntryCard from "@/components/EntryCard";
 import NewEntryCard from "@/components/NewEntryCard";
 import Question from "@/components/Question";
+import Spinner from "@/components/Spinner";
 import { getEntries } from "@/utils/api";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const JournalPage = () => {
   const [entries, setEntries] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchEntries = async () => {
       try {
         const entries = await getEntries();
-        console.log("Entries: ", entries);
         setEntries(entries);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching entries:", error);
       }
     };
 
+    setIsLoading(true);
     fetchEntries();
   }, []);
 
@@ -30,8 +33,13 @@ const JournalPage = () => {
       <div className="my-8">
         <Question />
       </div>
+      {isLoading && (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+          <Spinner width={"50px"} height={"50px"} />
+        </div>
+      )}
       <div className="grid grid-cols-3 gap-4">
-        <NewEntryCard />
+        <NewEntryCard setIsLoading={setIsLoading} />
         {entries.map((entry) => (
           <Link key={entry.id} href={`/journal/${entry.id}`}>
             <EntryCard entry={entry} />
