@@ -78,7 +78,6 @@ export const getEntries = async () => {
     method: "GET",
   });
 
-  console.log("Response: ", res);
   if (res.ok) {
     const data = await res.json();
     return data.data;

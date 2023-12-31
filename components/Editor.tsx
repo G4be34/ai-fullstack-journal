@@ -62,10 +62,8 @@ const Editor = ({ entry }) => {
                 className="flex items-center justify-between px-2 py-4 border-b border-t border-black/10"
                 key={data.name}
               >
-                <span className="text-lg font-semibold mr-auto">
-                  {data.name}
-                </span>
-                <span className="ml-2">{data.value}</span>
+                <span className="text-lg font-semibold">{data.name}</span>
+                <span className="ml-2 text-center">{data.value}</span>
               </li>
             ))}
           </ul>
