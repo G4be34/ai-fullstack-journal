@@ -3,9 +3,14 @@
 import { deleteEntry } from "@/utils/api";
 import { useRouter } from "next/navigation";
 
-const DeleteButton = ({ id, setIsDeleting }) => {
+type DeleteButtonProps = {
+  id: string;
+  setIsDeleting: (value: boolean) => void;
+};
+
+const DeleteButton = ({ id, setIsDeleting }: DeleteButtonProps) => {
   const router = useRouter();
-  const handleDelete = async (entryId) => {
+  const handleDelete = async (entryId: string) => {
     setIsDeleting(true);
     await deleteEntry(entryId);
     setIsDeleting(false);

@@ -1,6 +1,8 @@
-const EntryCard = ({ entry }) => {
+import { EntryType } from "@/utils/types";
+
+const EntryCard = ({ entry }: { entry: EntryType }) => {
   const date = new Date(entry.createdAt).toDateString();
-  const { subject, mood, color } = entry.analysis;
+  const { subject, mood, color } = entry.analysis!;
 
   return (
     <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">

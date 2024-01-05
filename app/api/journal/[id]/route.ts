@@ -4,7 +4,10 @@ import { prisma } from "@/utils/db";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
-export const PATCH = async (request: Request, { params }) => {
+export const PATCH = async (
+  request: Request,
+  { params }: { params: { id: string } }
+) => {
   const { content } = await request.json();
   const user = await getUserByClerkID();
   const updatedEntry = await prisma.journalEntry.update({
@@ -28,15 +31,30 @@ export const PATCH = async (request: Request, { params }) => {
     create: {
       userId: user.id,
       entryId: updatedEntry.id,
-      ...analysis,
+      sentimentScore: analysis?.sentimentScore,
+      mood: analysis?.mood || "",
+      summary: analysis?.summary || "",
+      subject: analysis?.subject || "",
+      negative: analysis?.negative || false,
+      color: analysis?.color || "",
     },
-    update: analysis,
+    update: {
+      sentimentScore: analysis?.sentimentScore,
+      mood: analysis?.mood,
+      summary: analysis?.summary,
+      subject: analysis?.subject,
+      negative: analysis?.negative,
+      color: analysis?.color,
+    },
   });
 
   return NextResponse.json({ data: { ...updatedEntry, analysis: updated } });
 };
 
-export const DELETE = async (req, { params }) => {
+export const DELETE = async (
+  req: Request,
+  { params }: { params: { id: string } }
+) => {
   try {
     const user = await getUserByClerkID();
     await prisma.journalEntry.delete({

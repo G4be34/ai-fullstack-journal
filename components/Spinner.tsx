@@ -1,4 +1,9 @@
-const Spinner = ({ width, height }) => {
+type SpinnerPropsType = {
+  width: string;
+  height: string;
+};
+
+const Spinner = ({ width, height }: SpinnerPropsType) => {
   return (
     <div
       style={{ width, height }}

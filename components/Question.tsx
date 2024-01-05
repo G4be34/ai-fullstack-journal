@@ -1,7 +1,7 @@
 "use client";
 
 import { askQuestion } from "@/utils/api";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Spinner from "./Spinner";
 
 const Question = () => {
@@ -9,11 +9,11 @@ const Question = () => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState();
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 

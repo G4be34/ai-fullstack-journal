@@ -8,19 +8,19 @@ const createNewUser = async () => {
 
     const match = await prisma.user.findUnique({
       where: {
-        clerkId: user.id as string,
+        clerkId: user!.id as string,
       },
     });
 
     if (!match) {
       await prisma.user.create({
         data: {
-          clerkId: user.id,
-          email: user?.emailAddresses[0].emailAddress,
+          clerkId: user!.id,
+          email: user?.emailAddresses[0].emailAddress!,
         },
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating new user:", error);
     throw new Error(error);
   }

@@ -1,4 +1,4 @@
-export const createURL = (path) => {
+export const createURL = (path: string) => {
   return window.location.origin + path;
 };
 
@@ -16,7 +16,7 @@ export const createNewEntry = async () => {
   }
 };
 
-export const updateEntry = async (id, content) => {
+export const updateEntry = async (id: string, content: string) => {
   const res = await fetch(new Request(createURL(`/api/journal/${id}`)), {
     method: "PATCH",
     body: JSON.stringify({ content }),
@@ -31,7 +31,7 @@ export const updateEntry = async (id, content) => {
   }
 };
 
-export const askQuestion = async (question) => {
+export const askQuestion = async (question: string) => {
   const res = await fetch(new Request(createURL("/api/question")), {
     method: "POST",
     body: JSON.stringify({ question }),
@@ -46,7 +46,7 @@ export const askQuestion = async (question) => {
   }
 };
 
-export const deleteEntry = async (id) => {
+export const deleteEntry = async (id: string) => {
   const res = await fetch(new Request(createURL(`/api/journal/${id}`)), {
     method: "DELETE",
   });
@@ -56,7 +56,7 @@ export const deleteEntry = async (id) => {
   }
 };
 
-export const verifyUser = async (email) => {
+export const verifyUser = async (email: string) => {
   const res = await fetch(
     new Request(createURL(`/api/verify?email=${email}`)),
     {

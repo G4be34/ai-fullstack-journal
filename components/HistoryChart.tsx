@@ -1,8 +1,15 @@
 "use client";
 
+import { AnalysisType } from "@/utils/types";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 
-const CustomToolTip = ({ payload, label, active }) => {
+type ToolTipTypes = {
+  payload: Array<{ payload: { color: string; mood: string } }>;
+  label: string | number;
+  active: boolean;
+};
+
+const CustomToolTip = ({ payload, label, active }: ToolTipTypes) => {
   const dateLabel = new Date(label).toLocaleString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -29,7 +36,7 @@ const CustomToolTip = ({ payload, label, active }) => {
   return null;
 };
 
-const HistoryChart = ({ data }) => {
+const HistoryChart = ({ data }: { data: AnalysisType[] }) => {
   return (
     <ResponsiveContainer width={"100%"} height={"100%"}>
       <LineChart width={300} height={100} data={data}>

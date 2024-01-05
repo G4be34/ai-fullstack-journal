@@ -7,6 +7,12 @@ import { PromptTemplate } from "langchain/prompts";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import z from "zod";
 
+type EntryType = {
+  id: string;
+  createdAt: Date;
+  content: string;
+};
+
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
     sentimentScore: z
@@ -32,7 +38,7 @@ const parser = StructuredOutputParser.fromZodSchema(
   })
 );
 
-const getPrompt = async (content) => {
+const getPrompt = async (content: string) => {
   const formatted_instructions = parser.getFormatInstructions();
 
   const prompt = new PromptTemplate({
@@ -47,7 +53,7 @@ const getPrompt = async (content) => {
   return input;
 };
 
-export const analyze = async (content) => {
+export const analyze = async (content: string) => {
   const input = await getPrompt(content);
   const model = new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
   const res = await model.call(input);
@@ -59,7 +65,7 @@ export const analyze = async (content) => {
   }
 };
 
-export const qa = async (question, entries) => {
+export const qa = async (question: string, entries: EntryType[]) => {
   const docs = entries.map((entry) => {
     return new Document({
       pageContent: entry.content,

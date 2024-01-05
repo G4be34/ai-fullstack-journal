@@ -5,11 +5,12 @@ import NewEntryCard from "@/components/NewEntryCard";
 import Question from "@/components/Question";
 import Spinner from "@/components/Spinner";
 import { getEntries } from "@/utils/api";
+import { EntryType } from "@/utils/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const JournalPage = () => {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState<EntryType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

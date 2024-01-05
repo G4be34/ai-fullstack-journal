@@ -7,7 +7,7 @@ const links = [
   { href: "/history", label: "History" },
 ];
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex h-screen overflow-hidden relative">
       <aside className="w-48 h-full border-r border-black/10 bg-gray-200">

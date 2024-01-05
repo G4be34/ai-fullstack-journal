@@ -18,7 +18,12 @@ export const POST = async () => {
     data: {
       userId: user.id,
       entryId: entry.id,
-      ...analysis,
+      sentimentScore: analysis?.sentimentScore || 0,
+      mood: analysis?.mood || "",
+      summary: analysis?.summary || "",
+      subject: analysis?.subject || "",
+      negative: analysis?.negative || false,
+      color: analysis?.color || "",
     },
   });
 

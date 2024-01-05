@@ -3,7 +3,11 @@
 import { createNewEntry } from "@/utils/api";
 import { useRouter } from "next/navigation";
 
-const NewEntryCard = ({ setIsLoading }) => {
+type NewEntryCardPropsType = {
+  setIsLoading: (isLoading: boolean) => void;
+};
+
+const NewEntryCard = ({ setIsLoading }: NewEntryCardPropsType) => {
   const router = useRouter();
   const handleOnClick = async () => {
     setIsLoading(true);

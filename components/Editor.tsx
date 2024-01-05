@@ -1,26 +1,19 @@
 "use client";
 
 import { updateEntry } from "@/utils/api";
+import { EntryType } from "@/utils/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAutosave } from "react-autosave";
 import DeleteButton from "./DeleteButton";
 import Spinner from "./Spinner";
 
-const Editor = ({ entry }) => {
+const Editor = ({ entry }: { entry: EntryType }) => {
   const [value, setValue] = useState(entry.content);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [analysis, setAnalysis] = useState(entry.analysis);
   const router = useRouter();
-
-  const { mood, summary, color, subject, negative } = analysis;
-  const analysisData = [
-    { name: "Summary", value: summary },
-    { name: "Subject", value: subject },
-    { name: "Mood", value: mood[0].toUpperCase() + mood.slice(1) },
-    { name: "Negative", value: negative ? "True" : "False" },
-  ];
 
   useAutosave({
     data: value,
@@ -34,6 +27,18 @@ const Editor = ({ entry }) => {
     },
     saveOnUnmount: false,
   });
+
+  if (!analysis) {
+    return null;
+  }
+
+  const { mood, summary, color, subject, negative } = analysis;
+  const analysisData = [
+    { name: "Summary", value: summary },
+    { name: "Subject", value: subject },
+    { name: "Mood", value: mood[0].toUpperCase() + mood.slice(1) },
+    { name: "Negative", value: negative ? "True" : "False" },
+  ];
 
   return (
     <div className="w-full h-full grid grid-cols-3 gap-0 relative">
