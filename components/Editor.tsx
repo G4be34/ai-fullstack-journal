@@ -65,6 +65,7 @@ const Editor = ({ entry }: { entry: EntryType }) => {
           className="w-full h-full p-8 text-md lg:text-xl "
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          placeholder="What's on your mind?"
         />
       </div>
       <div className="border-l border-black/5 col-span-3 lg:col-span-1">
