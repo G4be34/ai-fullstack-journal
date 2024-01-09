@@ -8,6 +8,17 @@ import { useAutosave } from "react-autosave";
 import DeleteButton from "./DeleteButton";
 import Spinner from "./Spinner";
 
+const isColorDark = (hexColor: string) => {
+  const rgb = parseInt(hexColor.substring(1), 16);
+  const r = (rgb >> 16) & 0xff;
+  const g = (rgb >> 8) & 0xff;
+  const b = (rgb >> 0) & 0xff;
+
+  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+
+  return luminance < 128;
+};
+
 const Editor = ({ entry }: { entry: EntryType }) => {
   const [value, setValue] = useState(entry.content);
   const [isSaving, setIsSaving] = useState(false);
@@ -49,16 +60,22 @@ const Editor = ({ entry }: { entry: EntryType }) => {
           <div className="w-[16px] h-[16px] rounded-full bg-green-500"></div>
         )}
       </div>
-      <div className="col-span-2">
+      <div className="col-span-3 lg:col-span-2">
         <textarea
-          className="w-full h-full p-8 text-xl "
+          className="w-full h-full p-8 text-md lg:text-xl "
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
       </div>
-      <div className="border-l border-black/5">
+      <div className="border-l border-black/5 col-span-3 lg:col-span-1">
         <div className="px-6 py-10" style={{ backgroundColor: color }}>
-          <h2 className="text-2xl">Analysis</h2>
+          <h2
+            className={`text-2xl ${
+              isColorDark(color) ? "text-white" : "text-black"
+            }`}
+          >
+            Analysis
+          </h2>
         </div>
         <div>
           <ul>
